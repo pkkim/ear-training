@@ -5,9 +5,19 @@
 <body>
 <script src="ear-training.js"></script>
 <p>Type a note to use as root (such as C4 or Bb2 or F#7)<input type="text" id="root-input"/></p>
-<button onclick="uiPlayMajorScale()">Major scale</button>
-<button onclick="uiPlayMajorTriad()">Major triad</button>
-<button onclick="uiPlayMinorTriad()">Minor triad</button>
+<p>
+	<button onclick="uiPlayMajorScale()">Major scale</button>
+</p>
+<p>
+	<button onclick="uiPlayMajorTriad(0)">Major triad root</button>
+	<button onclick="uiPlayMajorTriad(1)">Major triad 1st inv</button>
+	<button onclick="uiPlayMajorTriad(2)">Major triad 2nd inv</button>
+</p>
+<p>
+	<button onclick="uiPlayMinorTriad(0)">Minor triad</button>
+	<button onclick="uiPlayMinorTriad(1)">Minor triad 1st inv</button>
+	<button onclick="uiPlayMinorTriad(2)">Minor triad 2nd inv</button>
+</p>
 </body>
 <script>
 	window.onload = () => {
