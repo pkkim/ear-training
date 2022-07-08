@@ -97,7 +97,6 @@ const playSequence = (notesAndDurations, delay) => {
       playFrequency(getContext(), freq, duration, attack, decay);
     }, acc);
     acc += duration;
-    console.log({acc});
   });
 }
 
@@ -105,14 +104,47 @@ const makeSimpleNotesAndDurations = (freqs, duration) => (
   freqs.map(freq => ({freq, duration}))
 )
 
-const playCMajorScale = () => {
-  const cMajor = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"];
-  const notesAndDurations = makeSimpleNotesAndDurations(cMajor.map(freq), 500);
-  playSequence(notesAndDurations, 0);
+const getSemitoneFactor = (semitone) => {
+  const positionInOctave = ((semitone % 12) + 12) % 12;
+  const factorInOctave = SEMITONE_FACTORS[positionInOctave];
+  const octaves = (semitone - positionInOctave) / 12;
+  return factorInOctave * Math.pow(2, octaves)
 }
 
-const playSemitoneSequence = (start, semitones, inversion) => {
-  const rootFreq = freq(start);
-  const frequencies = semitones.map((semitone) => rootFreq * SEMITONE_FACTORS[semitone]);
+const playSemitoneSequence = (root, semitones) => {
+  const rootFreq = freq(root);
+  const frequencies = semitones.map(semitone => rootFreq * getSemitoneFactor(semitone));
   playSequence(makeSimpleNotesAndDurations(frequencies, 500), 100);
+}
+
+const playMajorScale = (root) => {
+  semitones = [0, 2, 4, 5, 7, 9, 11, 12];
+  playSemitoneSequence(root, semitones);
+}
+
+const playMajorTriad = (root) => {
+  semitones = [0, 4, 7];
+  playSemitoneSequence(root, semitones);
+}
+
+const playMinorTriad = (root) => {
+  semitones = [0, 3, 7];
+  playSemitoneSequence(root, semitones);
+}
+
+const uiGetRoot = () => {
+  const rootInput = document.getElementById("root-input");
+  return rootInput.value;
+}
+
+const uiPlayMajorScale = () => {
+  playMajorScale(uiGetRoot())
+}
+
+const uiPlayMajorTriad = () => {
+  playMajorTriad(uiGetRoot())
+} 
+
+const uiPlayMinorTriad = () => {
+  playMinorTriad(uiGetRoot())
 }

@@ -4,8 +4,15 @@
 </head>
 <body>
 <script src="ear-training.js"></script>
-</script>
-<button onclick="playCMajorScale()">C major scale</button>
-<button onclick="playSemitoneSequence('C4', [0, 4, 7])">C major triad</button>
+<p>Type a note to use as root (such as C4 or Bb2 or F#7)<input type="text" id="root-input"/></p>
+<button onclick="uiPlayMajorScale()">Major scale</button>
+<button onclick="uiPlayMajorTriad()">Major triad</button>
+<button onclick="uiPlayMinorTriad()">Minor triad</button>
 </body>
+<script>
+	window.onload = () => {
+	  const rootInput = document.getElementById("root-input");
+	  rootInput.value = "C4";
+	}
+</script>
 </html>
