@@ -123,20 +123,27 @@ const playSemitoneSequence = (root, semitones, inversion = 0) => {
   playSequence(makeSimpleNotesAndDurations(frequencies, 500), 100);
 }
 
-const playMajorScale = (root) => {
-  semitones = [0, 2, 4, 5, 7, 9, 11, 12];
-  playSemitoneSequence(root, semitones);
-}
+// top level sound playing functions
 
-const playMajorTriad = (root, inversion) => {
-  semitones = [0, 4, 7];
+const makePlayer = semitones => (root, inversion) => {
   playSemitoneSequence(root, semitones, inversion);
 }
 
-const playMinorTriad = (root, inversion) => {
-  semitones = [0, 3, 7];
-  playSemitoneSequence(root, semitones, inversion);
-}
+const playMajorScale = makePlayer([0, 2, 4, 5, 7, 9, 11, 12]);
+
+// triads
+const playMajorTriad = makePlayer([0, 4, 7]);
+const playAugmentedTriad = makePlayer([0, 4, 8]);
+const playMinorTriad = makePlayer([0, 3, 7]);
+const playDiminishedTriad = makePlayer([0, 3, 6]);
+
+const playMajor7 = makePlayer([0, 4, 7, 11]);
+const playDominant7 = makePlayer([0, 4, 7, 10]);
+const playMinor7 = makePlayer([0, 3, 7, 10]);
+const playHalfDiminished7 = makePlayer([0, 3, 6, 10]);
+const playFullyDiminished7 = makePlayer([0, 3, 6, 9]);
+
+// UI interaction functions
 
 const uiGetRoot = () => {
   const rootInput = document.getElementById("root-input");
@@ -150,7 +157,28 @@ const uiPlayMajorScale = () => {
 const uiPlayMajorTriad = (inversion) => {
   playMajorTriad(uiGetRoot(), inversion)
 } 
-
+const uiPlayAugmentedTriad = (inversion) => {
+  playAugmentedTriad(uiGetRoot(), inversion)
+} 
 const uiPlayMinorTriad = (inversion) => {
   playMinorTriad(uiGetRoot(), inversion)
+}
+const uiPlayDiminishedTriad = (inversion) => {
+  playDiminishedTriad(uiGetRoot(), inversion)
+}
+
+const uiPlayMajor7 = (inversion) => {
+  playMajor7(uiGetRoot(), inversion);
+}
+const uiPlayDominant7 = (inversion) => {
+  playDominant7(uiGetRoot(), inversion);
+}
+const uiPlayMinor7 = (inversion) => {
+  playMinor7(uiGetRoot(), inversion);
+}
+const uiPlayHalfDiminished7 = (inversion) => {
+  playHalfDiminished7(uiGetRoot(), inversion);
+}
+const uiPlayFullyDiminished7 = (inversion) => {
+  playFullyDiminished7(uiGetRoot(), inversion);
 }

@@ -1,23 +1,122 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="index.css" />
 </head>
 <body>
 <script src="ear-training.js"></script>
 <p>Type a note to use as root (such as C4 or Bb2 or F#7)<input type="text" id="root-input"/></p>
-<p>
-	<button onclick="uiPlayMajorScale()">Major scale</button>
-</p>
-<p>
-	<button onclick="uiPlayMajorTriad(0)">Major triad root</button>
-	<button onclick="uiPlayMajorTriad(1)">Major triad 1st inv</button>
-	<button onclick="uiPlayMajorTriad(2)">Major triad 2nd inv</button>
-</p>
-<p>
-	<button onclick="uiPlayMinorTriad(0)">Minor triad</button>
-	<button onclick="uiPlayMinorTriad(1)">Minor triad 1st inv</button>
-	<button onclick="uiPlayMinorTriad(2)">Minor triad 2nd inv</button>
-</p>
+
+<div class="button-grid-4">
+	<div class="grid-item">
+		<button onclick="uiPlayMajorTriad(0)">Major triad root inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayMajorTriad(1)">Major triad 1st inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayMajorTriad(2)">Major triad 2nd inv</button>
+	</div>
+	<div class="grid-item"></div>
+
+	<div class="grid-item">
+		<button onclick="uiPlayAugmentedTriad(0)">Augmented triad root inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayAugmentedTriad(1)">Augmented triad 1st inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayAugmentedTriad(2)">Augmented triad 2nd inv</button>
+	</div>
+	<div class="grid-item"></div>
+
+	<div class="grid-item">
+		<button onclick="uiPlayMinorTriad(0)">Minor triad root inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayMinorTriad(1)">Minor triad 1st inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayMinorTriad(2)">Minor triad 2nd inv</button>
+	</div>
+	<div class="grid-item"></div>
+
+	<div class="grid-item">
+		<button onclick="uiPlayDiminishedTriad(0)">Diminished triad root inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayDiminishedTriad(1)">Diminished triad 1st inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayDiminishedTriad(2)">Diminished triad 2nd inv</button>
+	</div>
+	<div class="grid-item"></div>
+
+	<div class="grid-item">
+		<button onclick="uiPlayMajor7(0)">△7 root inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayMajor7(1)">△7 1st inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayMajor7(2)">△7 2nd inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayMajor7(3)">△7 3rd inv</button>
+	</div>
+
+	<div class="grid-item">
+		<button onclick="uiPlayDominant7(0)">7 root inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayDominant7(1)">7 1st inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayDominant7(2)">7 2nd inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayDominant7(3)">7 3rd inv</button>
+	</div>
+
+	<div class="grid-item">
+		<button onclick="uiPlayMinor7(0)">&minus;7 root inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayMinor7(1)">&minus;7 1st inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayMinor7(2)">&minus;7 2nd inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayMinor7(3)">&minus;7 3rd inv</button>
+	</div>
+
+	<div class="grid-item">
+		<button onclick="uiPlayHalfDiminished7(0)">ø7 root inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayHalfDiminished7(1)">ø7 1st inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayHalfDiminished7(2)">ø7 2nd inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayHalfDiminished7(3)">ø7 3rd inv</button>
+	</div>
+
+	<div class="grid-item">
+		<button onclick="uiPlayFullyDiminished7(0)">°7 root inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayFullyDiminished7(1)">°7 1st inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayFullyDiminished7(2)">°7 2nd inv</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayFullyDiminished7(3)">°7 3rd inv</button>
+	</div>
+</div>
 </body>
 <script>
 	window.onload = () => {
