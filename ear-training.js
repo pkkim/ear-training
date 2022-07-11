@@ -86,7 +86,9 @@ const getContext = () => {
 }
 
 /**
- * notesAndDurations looks like [{freq: 440, duration: 500}] for A4 played for 500ms
+ * notesAndDurations looks like
+ * [{freq: 440, duration: 500}] for A4 played for 500ms
+ * or [{freq: [440, 880], duration: 500}] for A4 and A5 played for 500ms
  */
 const playSequence = (notesAndDurations, delay) => {
   let acc = delay ?? 0;
@@ -94,7 +96,13 @@ const playSequence = (notesAndDurations, delay) => {
     setTimeout(() => {
       const attack = Math.min(20, duration / 20);
       const decay = duration + 300;
-      playFrequency(getContext(), freq, duration, attack, decay);
+      if (Array.isArray(freq)) {
+        freq.forEach((f) => {
+          playFrequency(getContext(), f, duration, attack, decay);
+        })
+      } else {
+        playFrequency(getContext(), freq, duration, attack, decay);
+      }
     }, acc);
     acc += duration;
   });
@@ -111,7 +119,7 @@ const getSemitoneFactor = (semitone) => {
   return factorInOctave * Math.pow(2, octaves)
 }
 
-const playSemitoneSequence = (root, semitones, inversion = 0) => {
+const playSemitoneSequence = (root, semitones, inversion = 0, playAllAtEnd = false) => {
   const rootFreq = freq(root);
 
   let invertedSemitones = semitones;
@@ -120,13 +128,18 @@ const playSemitoneSequence = (root, semitones, inversion = 0) => {
   }
 
   const frequencies = invertedSemitones.map(semitone => rootFreq * getSemitoneFactor(semitone));
-  playSequence(makeSimpleNotesAndDurations(frequencies, 500), 100);
+  const sequence = makeSimpleNotesAndDurations(frequencies, 500)
+
+  if (playAllAtEnd) {
+    sequence.push({freq: frequencies, duration: 1000})
+  }
+  playSequence(sequence, 100);
 }
 
 // top level sound playing functions
 
-const makePlayer = semitones => (root, inversion) => {
-  playSemitoneSequence(root, semitones, inversion);
+const makePlayer = semitones => (root, inversion, playAllAtEnd = false) => {
+  playSemitoneSequence(root, semitones, inversion, playAllAtEnd);
 }
 
 const playMajorScale = makePlayer([0, 2, 4, 5, 7, 9, 11, 12]);
@@ -154,31 +167,35 @@ const uiPlayMajorScale = () => {
   playMajorScale(uiGetRoot())
 }
 
+const uiPlayInterval = (halfSteps) => {
+  makePlayer([0, halfSteps])(uiGetRoot(), 0, true)
+}
+
 const uiPlayMajorTriad = (inversion) => {
-  playMajorTriad(uiGetRoot(), inversion)
+  playMajorTriad(uiGetRoot(), inversion, true)
 } 
 const uiPlayAugmentedTriad = (inversion) => {
-  playAugmentedTriad(uiGetRoot(), inversion)
+  playAugmentedTriad(uiGetRoot(), inversion, true)
 } 
 const uiPlayMinorTriad = (inversion) => {
-  playMinorTriad(uiGetRoot(), inversion)
+  playMinorTriad(uiGetRoot(), inversion, true)
 }
 const uiPlayDiminishedTriad = (inversion) => {
-  playDiminishedTriad(uiGetRoot(), inversion)
+  playDiminishedTriad(uiGetRoot(), inversion, true)
 }
 
 const uiPlayMajor7 = (inversion) => {
-  playMajor7(uiGetRoot(), inversion);
+  playMajor7(uiGetRoot(), inversion, true);
 }
 const uiPlayDominant7 = (inversion) => {
-  playDominant7(uiGetRoot(), inversion);
+  playDominant7(uiGetRoot(), inversion, true);
 }
 const uiPlayMinor7 = (inversion) => {
-  playMinor7(uiGetRoot(), inversion);
+  playMinor7(uiGetRoot(), inversion, true);
 }
 const uiPlayHalfDiminished7 = (inversion) => {
-  playHalfDiminished7(uiGetRoot(), inversion);
+  playHalfDiminished7(uiGetRoot(), inversion, true);
 }
 const uiPlayFullyDiminished7 = (inversion) => {
-  playFullyDiminished7(uiGetRoot(), inversion);
+  playFullyDiminished7(uiGetRoot(), inversion, true);
 }

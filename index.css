@@ -1,11 +1,12 @@
 .button-grid-3 {
 	display: grid;
-	grid-template-columns: auto auto auto;
+	grid-template-columns: repeat(3, 1fr);
 }
 
 .button-grid-4 {
 	display: grid;
-	grid-template-columns: auto auto auto auto;
+	grid-template-columns: repeat(4, 25%);
+	padding: 5px;
 }
 
 .grid-item {

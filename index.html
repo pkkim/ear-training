@@ -8,6 +8,48 @@
 <p>Type a note to use as root (such as C4 or Bb2 or F#7)<input type="text" id="root-input"/></p>
 
 <div class="button-grid-4">
+	<!-- Intervals -->
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(1)">Minor second</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(2)">Major second</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(3)">Minor third</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(4)">Major third</button>
+	</div>
+
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(5)">Perfect fourth</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(6)">Tritone</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(7)">Perfect fifth</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(8)">Minor sixth</button>
+	</div>
+
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(9)">Major sixth</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(10)">Minor seventh</button>
+	</div>
+	<div class="grid-item">
+		<button onclick="uiPlayInterval(11)">Major seventh</button>
+	</div>
+	<div class="grid-item">
+	</div>
+</div>
+
+<div class="button-grid-3">
+	<!-- Triads -->
 	<div class="grid-item">
 		<button onclick="uiPlayMajorTriad(0)">Major triad root inv</button>
 	</div>
@@ -17,7 +59,6 @@
 	<div class="grid-item">
 		<button onclick="uiPlayMajorTriad(2)">Major triad 2nd inv</button>
 	</div>
-	<div class="grid-item"></div>
 
 	<div class="grid-item">
 		<button onclick="uiPlayAugmentedTriad(0)">Augmented triad root inv</button>
@@ -28,7 +69,6 @@
 	<div class="grid-item">
 		<button onclick="uiPlayAugmentedTriad(2)">Augmented triad 2nd inv</button>
 	</div>
-	<div class="grid-item"></div>
 
 	<div class="grid-item">
 		<button onclick="uiPlayMinorTriad(0)">Minor triad root inv</button>
@@ -39,7 +79,6 @@
 	<div class="grid-item">
 		<button onclick="uiPlayMinorTriad(2)">Minor triad 2nd inv</button>
 	</div>
-	<div class="grid-item"></div>
 
 	<div class="grid-item">
 		<button onclick="uiPlayDiminishedTriad(0)">Diminished triad root inv</button>
@@ -50,7 +89,10 @@
 	<div class="grid-item">
 		<button onclick="uiPlayDiminishedTriad(2)">Diminished triad 2nd inv</button>
 	</div>
-	<div class="grid-item"></div>
+</div>
+
+<div class="button-grid-4">
+	<!-- Seventh chords -->
 
 	<div class="grid-item">
 		<button onclick="uiPlayMajor7(0)">△7 root inv</button>
