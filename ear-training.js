@@ -133,6 +133,7 @@ const playSemitoneSequence = (root, semitones, inversion = 0, playAllAtEnd = fal
   if (playAllAtEnd) {
     sequence.push({freq: frequencies, duration: 1000})
   }
+  console.log({sequence});
   playSequence(sequence, 100);
 }
 
@@ -156,6 +157,23 @@ const playMinor7 = makePlayer([0, 3, 7, 10]);
 const playHalfDiminished7 = makePlayer([0, 3, 6, 10]);
 const playFullyDiminished7 = makePlayer([0, 3, 6, 9]);
 
+// Secret related code
+
+let secret = null;
+
+const getRandomIntInclusive = (min, max) => {
+    const minInt = Math.ceil(min);
+    const maxInt = Math.floor(max);
+    return Math.floor(Math.random() * (maxInt - minInt + 1)) + minInt;
+}
+
+const guess = (semitones, inversion) => {
+  console.log({semitones, inversion, secret});
+  const semitonesEqual = semitones.length == secret.semitones.length && 
+    semitones.every((s, i) => s === secret.semitones[i]);
+  return semitonesEqual && inversion === secret.inversion;
+}
+
 // UI interaction functions
 
 const uiGetRoot = () => {
@@ -163,39 +181,106 @@ const uiGetRoot = () => {
   return rootInput.value;
 }
 
-const uiPlayMajorScale = () => {
+const uiSetRandomInterval = () => {
+  let semitones;
+  if (secret && secret.semitones.length == 2) {
+    ({ semitones } = secret);
+  } else {
+    semitones = [0, getRandomIntInclusive(1, 11)];
+    secret = { semitones, inversion: 0 };
+  }
+  makePlayer(semitones)(uiGetRoot(), 0, true);
+}
+
+const uiSetRandomTriad = () => {
+  let semitones, inversion;
+  if (secret && secret.semitones.length === 3) {
+    ({ semitones, inversion } = secret);
+  } else {
+    const triadType = getRandomIntInclusive(0, 3);
+    const inversion = getRandomIntInclusive(0, 2);
+
+    switch (triadType) {
+      case 0:  // Major
+        semitones = [0, 4, 7];
+        break;
+      case 1:  // Augmented
+        semitones = [0, 4, 8];
+        break;
+      case 2:  // Minor
+        semitones = [0, 3, 7];
+        break;
+      case 3:  // Diminished
+        semitones = [0, 3, 6];
+        break;
+      default:
+        throw new Error(`unhandled triad type: ${triadType}`);
+    }
+    secret = { semitones, inversion };
+  }
+
+  makePlayer(semitones)(uiGetRoot(), inversion, true);
+}
+
+const uiGuess = (semitones, inversion) => {
+  const correct = guess(semitones, inversion);
+  const element = document.getElementById("guess-result")
+  if (correct) {
+    element.innerHTML = "Correct"
+    secret = null;
+  } else {
+    element.innerHTML = "Incorrect"
+  }
+}
+
+const uiMajorScale = () => {
   playMajorScale(uiGetRoot())
 }
 
-const uiPlayInterval = (halfSteps) => {
-  makePlayer([0, halfSteps])(uiGetRoot(), 0, true)
+const uiInterval = (halfSteps) => {
+  makePlayer([0, halfSteps])(uiGetRoot(), 0, true);
+  if (secret) {
+    uiGuess([0, halfSteps], 0);
+  }
 }
 
-const uiPlayMajorTriad = (inversion) => {
-  playMajorTriad(uiGetRoot(), inversion, true)
+const uiMajorTriad = (inversion) => {
+  playMajorTriad(uiGetRoot(), inversion, true);
+  if (secret) {
+    uiGuess([0, 4, 7], inversion);
+  }
 } 
-const uiPlayAugmentedTriad = (inversion) => {
+const uiAugmentedTriad = (inversion) => {
   playAugmentedTriad(uiGetRoot(), inversion, true)
+  if (secret) {
+    uiGuess([0, 4, 8], inversion);
+  }
 } 
-const uiPlayMinorTriad = (inversion) => {
+const uiMinorTriad = (inversion) => {
   playMinorTriad(uiGetRoot(), inversion, true)
+  if (secret) {
+    uiGuess([0, 3, 7], inversion);
+  }
 }
-const uiPlayDiminishedTriad = (inversion) => {
+const uiDiminishedTriad = (inversion) => {
   playDiminishedTriad(uiGetRoot(), inversion, true)
+  if (secret) {
+    uiGuess([0, 3, 6], inversion);
+  }
 }
 
-const uiPlayMajor7 = (inversion) => {
+const uiMajor7 = (inversion) => {
   playMajor7(uiGetRoot(), inversion, true);
 }
-const uiPlayDominant7 = (inversion) => {
+const uiDominant7 = (inversion) => {
   playDominant7(uiGetRoot(), inversion, true);
 }
-const uiPlayMinor7 = (inversion) => {
+const uiMinor7 = (inversion) => {
   playMinor7(uiGetRoot(), inversion, true);
 }
-const uiPlayHalfDiminished7 = (inversion) => {
+const uiHalfDiminished7 = (inversion) => {
   playHalfDiminished7(uiGetRoot(), inversion, true);
 }
-const uiPlayFullyDiminished7 = (inversion) => {
+const uiFullyDiminished7 = (inversion) => {
   playFullyDiminished7(uiGetRoot(), inversion, true);
 }

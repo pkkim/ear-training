@@ -7,156 +7,172 @@
 <script src="ear-training.js"></script>
 <p>Type a note to use as root (such as C4 or Bb2 or F#7)<input type="text" id="root-input"/></p>
 
+<h2>Press button to get an interval or chord to guess (press again to hear it again)</h2>
+
+<div class="button-grid-3">
+	<div class="grid-item grid-item-random">
+		<button onclick="uiSetRandomInterval()">Random interval</button>
+	</div>
+	<div class="grid-item grid-item-random">
+		<button onclick="uiSetRandomTriad()">Random triad</button>
+	</div>
+	<div class="grid-item grid-item-random">
+		<button onclick=" " disabled>Random seventh chord (in progress)</button>
+	</div>
+</div>
+
+<h2 id="guess-result">Identify the chord or interval</h2>
+
 <div class="button-grid-4">
 	<!-- Intervals -->
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(1)">Minor second</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(1)">Minor second</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(2)">Major second</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(2)">Major second</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(3)">Minor third</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(3)">Minor third</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(4)">Major third</button>
-	</div>
-
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(5)">Perfect fourth</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(6)">Tritone</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(7)">Perfect fifth</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(8)">Minor sixth</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(4)">Major third</button>
 	</div>
 
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(9)">Major sixth</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(5)">Perfect fourth</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(10)">Minor seventh</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(6)">Tritone</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayInterval(11)">Major seventh</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(7)">Perfect fifth</button>
 	</div>
-	<div class="grid-item">
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(8)">Minor sixth</button>
+	</div>
+
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(9)">Major sixth</button>
+	</div>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(10)">Minor seventh</button>
+	</div>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiInterval(11)">Major seventh</button>
+	</div>
+	<div class="grid-item grid-item-choose">
 	</div>
 </div>
 
 <div class="button-grid-3">
 	<!-- Triads -->
-	<div class="grid-item">
-		<button onclick="uiPlayMajorTriad(0)">Major triad root inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMajorTriad(0)">Major triad root inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayMajorTriad(1)">Major triad 1st inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMajorTriad(1)">Major triad 1st inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayMajorTriad(2)">Major triad 2nd inv</button>
-	</div>
-
-	<div class="grid-item">
-		<button onclick="uiPlayAugmentedTriad(0)">Augmented triad root inv</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayAugmentedTriad(1)">Augmented triad 1st inv</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayAugmentedTriad(2)">Augmented triad 2nd inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMajorTriad(2)">Major triad 2nd inv</button>
 	</div>
 
-	<div class="grid-item">
-		<button onclick="uiPlayMinorTriad(0)">Minor triad root inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiAugmentedTriad(0)">Augmented triad root inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayMinorTriad(1)">Minor triad 1st inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiAugmentedTriad(1)">Augmented triad 1st inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayMinorTriad(2)">Minor triad 2nd inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiAugmentedTriad(2)">Augmented triad 2nd inv</button>
 	</div>
 
-	<div class="grid-item">
-		<button onclick="uiPlayDiminishedTriad(0)">Diminished triad root inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMinorTriad(0)">Minor triad root inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayDiminishedTriad(1)">Diminished triad 1st inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMinorTriad(1)">Minor triad 1st inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayDiminishedTriad(2)">Diminished triad 2nd inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMinorTriad(2)">Minor triad 2nd inv</button>
+	</div>
+
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiDiminishedTriad(0)">Diminished triad root inv</button>
+	</div>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiDiminishedTriad(1)">Diminished triad 1st inv</button>
+	</div>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiDiminishedTriad(2)">Diminished triad 2nd inv</button>
 	</div>
 </div>
 
 <div class="button-grid-4">
 	<!-- Seventh chords -->
 
-	<div class="grid-item">
-		<button onclick="uiPlayMajor7(0)">△7 root inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMajor7(0)">△7 root inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayMajor7(1)">△7 1st inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMajor7(1)">△7 1st inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayMajor7(2)">△7 2nd inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMajor7(2)">△7 2nd inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayMajor7(3)">△7 3rd inv</button>
-	</div>
-
-	<div class="grid-item">
-		<button onclick="uiPlayDominant7(0)">7 root inv</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayDominant7(1)">7 1st inv</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayDominant7(2)">7 2nd inv</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayDominant7(3)">7 3rd inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMajor7(3)">△7 3rd inv</button>
 	</div>
 
-	<div class="grid-item">
-		<button onclick="uiPlayMinor7(0)">&minus;7 root inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiDominant7(0)">7 root inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayMinor7(1)">&minus;7 1st inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiDominant7(1)">7 1st inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayMinor7(2)">&minus;7 2nd inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiDominant7(2)">7 2nd inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayMinor7(3)">&minus;7 3rd inv</button>
-	</div>
-
-	<div class="grid-item">
-		<button onclick="uiPlayHalfDiminished7(0)">ø7 root inv</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayHalfDiminished7(1)">ø7 1st inv</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayHalfDiminished7(2)">ø7 2nd inv</button>
-	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayHalfDiminished7(3)">ø7 3rd inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiDominant7(3)">7 3rd inv</button>
 	</div>
 
-	<div class="grid-item">
-		<button onclick="uiPlayFullyDiminished7(0)">°7 root inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMinor7(0)">&minus;7 root inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayFullyDiminished7(1)">°7 1st inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMinor7(1)">&minus;7 1st inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayFullyDiminished7(2)">°7 2nd inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMinor7(2)">&minus;7 2nd inv</button>
 	</div>
-	<div class="grid-item">
-		<button onclick="uiPlayFullyDiminished7(3)">°7 3rd inv</button>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiMinor7(3)">&minus;7 3rd inv</button>
+	</div>
+
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiHalfDiminished7(0)">ø7 root inv</button>
+	</div>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiHalfDiminished7(1)">ø7 1st inv</button>
+	</div>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiHalfDiminished7(2)">ø7 2nd inv</button>
+	</div>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiHalfDiminished7(3)">ø7 3rd inv</button>
+	</div>
+
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiFullyDiminished7(0)">°7 root inv</button>
+	</div>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiFullyDiminished7(1)">°7 1st inv</button>
+	</div>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiFullyDiminished7(2)">°7 2nd inv</button>
+	</div>
+	<div class="grid-item grid-item-choose">
+		<button onclick="uiFullyDiminished7(3)">°7 3rd inv</button>
 	</div>
 </div>
 </body>
