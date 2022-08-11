@@ -6,7 +6,13 @@
 
 .button-grid-4 {
 	display: grid;
-	grid-template-columns: repeat(4, 25%);
+	grid-template-columns: repeat(4, 1fr);
+	padding: 5px;
+}
+
+.button-grid-6 {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
 	padding: 5px;
 }
 
