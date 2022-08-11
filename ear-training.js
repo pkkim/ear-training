@@ -38,7 +38,7 @@ const freq = (note) => {
   // NB: B3 is right below C4
   const c4 = 261.625565;
 
-  const [pitchClass, octaveStr] = note.split("_");
+  const [pitchClass, octaveStr] = parsePitchClassAndOctave(note);
   const octave = parseInt(octaveStr);
   const octaveFactor = Math.pow(2, octave - 4);
 
@@ -128,7 +128,7 @@ const getNote = (root, semitoneCountAbove) => {
     "B",
   ];
 
-  const [rootPitchClass, rootOctaveStr] = root.split("_");
+  const [rootPitchClass, rootOctave] = parsePitchClassAndOctave(root);
 
   let rootIndex = NOTE_SEQUENCE_SHARPS.indexOf(rootPitchClass);
   const isSharp = rootIndex !== undefined;
@@ -139,10 +139,9 @@ const getNote = (root, semitoneCountAbove) => {
   const otherPitchClass = isSharp ? NOTE_SEQUENCE_SHARPS[otherIndex] : NOTE_SEQUENCE_FLATS[otherIndex];
   
   // E_4, -10 -> rootIndex = 4, otherIndex = 6, octaves = (-10 - (6-4)) / 12 = -1
-  const rootOctave = parseInt(rootOctaveStr);
   const octavesUp = (semitoneCountAbove - (otherIndex - rootIndex)) / 12;
   const otherOctave = rootOctave + octavesUp;
-  return `${otherPitchClass}_${otherOctave}`;
+  return otherPitchClass + otherOctave;
 }
 
 const getSemitoneFactor = (semitone) => {
@@ -153,8 +152,6 @@ const getSemitoneFactor = (semitone) => {
 }
 
 const playSemitoneSequence = (root, semitones, inversion = 0, playAllAtEnd = false) => {
-  const rootFreq = freq(root);
-
   let invertedSemitones = semitones;
   if (inversion > 0) {
     invertedSemitones = semitones.slice(inversion, semitones.length).concat(semitones.slice(0, inversion).map(s => s + 12))
@@ -203,6 +200,16 @@ const guess = (semitones, inversion) => {
   const semitonesEqual = semitones.length == secret.semitones.length && 
     semitones.every((s, i) => s === secret.semitones[i]);
   return semitonesEqual && inversion === secret.inversion;
+}
+
+const parsePitchClassAndOctave = (note) => {
+  const regex = /([A-G](?:#|b)?)([0-9]+)/;
+  const match = note.match(regex);
+  if (match === null) {
+    return [null, null];
+  } else {
+    return [match[1], parseInt(match[2])];
+  }
 }
 
 // UI interaction functions
