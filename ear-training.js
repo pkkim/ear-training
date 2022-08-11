@@ -1,3 +1,4 @@
+// NB all notes are written like "C_4" or "Bb_12" for ease of parsing
 const NOTE_FACTORS = {
   "C": 1,
   "C#": 1.059463,
@@ -33,30 +34,15 @@ const SEMITONE_FACTORS = [
   1.887748,
 ]
 
-const NOTE_SEQUENCE = [
-  "C",
-  "C#",
-  "D",
-  "D#",
-  "E",
-  "F",
-  "F#",
-  "G",
-  "G#",
-  "A",
-  "A#",
-  "B",
-];
-
 const freq = (note) => {
   // NB: B3 is right below C4
   const c4 = 261.625565;
 
-  // works for octaves 0 through 9
-  const octave = parseInt(note.charAt(note.length - 1));
+  const [pitchClass, octaveStr] = note.split("_");
+  const octave = parseInt(octaveStr);
   const octaveFactor = Math.pow(2, octave - 4);
 
-  const noteFactor = NOTE_FACTORS[note.substring(0, note.length - 1)];
+  const noteFactor = NOTE_FACTORS[pitchClass];
 
   return c4 * octaveFactor * noteFactor;
 }
@@ -87,30 +73,77 @@ const getContext = () => {
 
 /**
  * notesAndDurations looks like
- * [{freq: 440, duration: 500}] for A4 played for 500ms
- * or [{freq: [440, 880], duration: 500}] for A4 and A5 played for 500ms
+ * [{freq: A4, duration: 500}] for A4 played for 500ms
+ * or [{freq: [A4, A5], duration: 500}] for A4 and A5 played for 500ms
  */
 const playSequence = (notesAndDurations, delay) => {
   let acc = delay ?? 0;
-  notesAndDurations.forEach(({freq, duration}) => {
+  notesAndDurations.forEach(({note, duration}) => {
     setTimeout(() => {
       const attack = Math.min(20, duration / 20);
       const decay = duration + 300;
-      if (Array.isArray(freq)) {
-        freq.forEach((f) => {
-          playFrequency(getContext(), f, duration, attack, decay);
+      if (Array.isArray(note)) {
+        note.forEach((n) => {
+          playFrequency(getContext(), freq(n), duration, attack, decay);
         })
       } else {
-        playFrequency(getContext(), freq, duration, attack, decay);
+        playFrequency(getContext(), freq(note), duration, attack, decay);
       }
     }, acc);
     acc += duration;
   });
 }
 
-const makeSimpleNotesAndDurations = (freqs, duration) => (
-  freqs.map(freq => ({freq, duration}))
+const makeSimpleNotesAndDurations = (notes, duration) => (
+  notes.map(note => ({note, duration}))
 )
+
+const getNote = (root, semitoneCountAbove) => {
+  const NOTE_SEQUENCE_SHARPS = [
+    "C",
+    "C#",
+    "D",
+    "D#",
+    "E",
+    "F",
+    "F#",
+    "G",
+    "G#",
+    "A",
+    "A#",
+    "B",
+  ];
+  const NOTE_SEQUENCE_FLATS = [
+    "C",
+    "Db",
+    "D",
+    "Eb",
+    "E",
+    "F",
+    "Gb",
+    "G",
+    "Ab",
+    "A",
+    "Bb",
+    "B",
+  ];
+
+  const [rootPitchClass, rootOctaveStr] = root.split("_");
+
+  let rootIndex = NOTE_SEQUENCE_SHARPS.indexOf(rootPitchClass);
+  const isSharp = rootIndex !== undefined;
+  if (!isSharp) {
+    rootIndex = NOTE_SEQUENCE_FLATS.findIndex(rootPitchClass);
+  }
+  const otherIndex = (((rootIndex + semitoneCountAbove) % 12) + 12) % 12;
+  const otherPitchClass = isSharp ? NOTE_SEQUENCE_SHARPS[otherIndex] : NOTE_SEQUENCE_FLATS[otherIndex];
+  
+  // E_4, -10 -> rootIndex = 4, otherIndex = 6, octaves = (-10 - (6-4)) / 12 = -1
+  const rootOctave = parseInt(rootOctaveStr);
+  const octavesUp = (semitoneCountAbove - (otherIndex - rootIndex)) / 12;
+  const otherOctave = rootOctave + octavesUp;
+  return `${otherPitchClass}_${otherOctave}`;
+}
 
 const getSemitoneFactor = (semitone) => {
   const positionInOctave = ((semitone % 12) + 12) % 12;
@@ -127,13 +160,12 @@ const playSemitoneSequence = (root, semitones, inversion = 0, playAllAtEnd = fal
     invertedSemitones = semitones.slice(inversion, semitones.length).concat(semitones.slice(0, inversion).map(s => s + 12))
   }
 
-  const frequencies = invertedSemitones.map(semitone => rootFreq * getSemitoneFactor(semitone));
-  const sequence = makeSimpleNotesAndDurations(frequencies, 500)
+  const notes = invertedSemitones.map(semitone => getNote(root, semitone))
+  const sequence = makeSimpleNotesAndDurations(notes, 500)
 
   if (playAllAtEnd) {
-    sequence.push({freq: frequencies, duration: 1000})
+    sequence.push({note: notes, duration: 1000})
   }
-  console.log({sequence});
   playSequence(sequence, 100);
 }
 
@@ -168,7 +200,6 @@ const getRandomIntInclusive = (min, max) => {
 }
 
 const guess = (semitones, inversion) => {
-  console.log({semitones, inversion, secret});
   const semitonesEqual = semitones.length == secret.semitones.length && 
     semitones.every((s, i) => s === secret.semitones[i]);
   return semitonesEqual && inversion === secret.inversion;
