@@ -52,7 +52,8 @@ const playFrequency = (ctx, freq, duration, attack, decay) => {
   const gain = ctx.createGain();
   gain.connect(ctx.destination);
   gain.gain.setValueAtTime(0, ctx.currentTime);
-  gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + attack / 1000);
+  // assumption that we'll never play more than three notes at a time
+  gain.gain.linearRampToValueAtTime(0.24, ctx.currentTime + attack / 1000);
   gain.gain.linearRampToValueAtTime(0, ctx.currentTime + decay / 1000);
 
   osc.frequency.value = freq;
@@ -71,14 +72,20 @@ const getContext = () => {
   return new window.AudioContext();
 }
 
+let currentlyPlaying = false;
+
 /**
  * notesAndDurations looks like
  * [{freq: A4, duration: 500}] for A4 played for 500ms
  * or [{freq: [A4, A5], duration: 500}] for A4 and A5 played for 500ms
  */
 const playSequence = (notesAndDurations, delay) => {
+  if (currentlyPlaying) {
+    return;
+  }
+  currentlyPlaying = true;
   let acc = delay ?? 0;
-  notesAndDurations.forEach(({note, duration}) => {
+  notesAndDurations.forEach(({note, duration}, i) => {
     setTimeout(() => {
       const attack = Math.min(20, duration / 20);
       const decay = duration + 300;
@@ -88,6 +95,10 @@ const playSequence = (notesAndDurations, delay) => {
         })
       } else {
         playFrequency(getContext(), freq(note), duration, attack, decay);
+      }
+      console.log({i})
+      if (i === notesAndDurations.length - 1) {
+        currentlyPlaying = false;
       }
     }, acc);
     acc += duration;
@@ -161,7 +172,7 @@ const playSemitoneSequence = (root, semitones, inversion = 0, playAllAtEnd = fal
   const sequence = makeSimpleNotesAndDurations(notes, 500)
 
   if (playAllAtEnd) {
-    sequence.push({note: notes, duration: 1000})
+    sequence.push({note: notes, duration: 800})
   }
   playSequence(sequence, 100);
 }
