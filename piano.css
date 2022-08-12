@@ -1,0 +1,77 @@
+.piano {
+	/* TODO put the right incantations in here so it puts them flush against each other */
+	display: grid;
+	column-gap: 0;
+	grid-template-columns: auto auto 1fr;)
+}
+/* 3-clusters */
+
+.container-3-cluster {
+	position: relative;
+	width: 300px;
+	height: 350px;
+}
+
+.white-3-cluster {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.black-cluster-container {
+	position: absolute;
+	width: 100%;
+	height: 60%;
+}
+
+.black-3-cluster {
+	display: grid;
+	height: 100%;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: calc(10 / 54 * 100%);
+	padding-right: calc(10 / 54 * 100%);
+	column-gap: calc(10 / 34 * 100%);
+	grid-template-columns: repeat(2, 1fr);
+}
+
+/* 4-clusters */
+
+.container-4-cluster {
+	position: relative;
+	width: 400px;
+	height: 350px;
+}
+
+.white-4-cluster {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+}
+
+.black-4-cluster {
+	display: grid;
+	height: 100%;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: calc(9 / 72 * 100%);
+	padding-right: calc(9 / 72 * 100%);
+	column-gap: calc(10 / 54 * 100%);
+	grid-template-columns: repeat(3, 1fr);
+}
+
+/* keys */
+
+.white-key {
+	border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.black-key {
+	border: 1px solid rgba(0, 0, 0, 5);
+	background-color: rgba(30, 30, 30, 1);
+	/* background-color: rgba(150, 10, 10, 1); */
+}
